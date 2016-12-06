@@ -13,6 +13,11 @@ router.get('/login', function(req, res) {
   res.render('login');
 });
 
+router.get('/logout', function(req, res){
+    req.logout();
+    res.redirect('/');
+});
+
 router.post('/login', function(req,res,next) {
   // NOTE: use the custom version of authenticate so that we can
   // react to the authentication result... and so that we can
