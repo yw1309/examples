@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+<title></title>
+</head>
+<body>
+<style>
+button {
+	display: inline-block;
+}
+</style>
+<script src="javascripts/demo.js"></script>
+<h3>All buttons retrieve json from 3 urls:</h2> 
+<h3>... but the underlying implementation for making requests is different (callbacks, promises, fetch)</h3>
+<button id="btn">Get Some URLs</button> using <select id="technique">
+		<option value="cb">callbacks</option>
+		<option value="cbr">callbacks and recursion</option>
+		<option value="p">promises</option>
+		<option value="f">fetch</option>
+</select>
+</body>
+</head>
+</html>

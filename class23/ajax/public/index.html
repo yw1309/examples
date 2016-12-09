@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<head>
+<title></title>
+</head>
+<body>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+	var btn = document.querySelector('#btn');
+	btn.addEventListener('click', onClick);
+});
+
+function onClick(evt) {
+	evt.preventDefault();
+	// 1st step is to create an XMLHttpRequest obj
+	var req = new XMLHttpRequest();
+	// config
+	var foodForm = document.querySelector('#food');
+	var food = foodForm.value;
+	req.open('POST', 'http://localhost:3000/api/food');
+	// determine what is done on load, and on error
+	req.addEventListener('load', onLoad);
+	function onLoad() {
+			if(req.status == 200) {
+					var header = document.createElement('h3');
+					header.appendChild(document.createTextNode(req.responseText));
+					document.body.appendChild(header);
+			} else {
+					alert('error!');
+			}
+	}
+	req.addEventListener('error', onError);
+	function onError() {
+			alert('could not connect');
+	}
+	req.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+	req.send('food=' + food);
+}
+</script>
+<form method="POST" action="">
+	<input type="text" name="food" id="food">
+	<input type="submit"  id="btn" value="Press ME!!!!">
+</form>
+</body>
+</head>
+</html>
