@@ -2,53 +2,53 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 
-class Parent extends React.Component {
-    constructor() {
-        super(); 
-        this.state = {
-            counts: Array(8).fill(0)
-        };
+class BinaryCalculator extends React.Component {
+  constructor(props) {
+    super();
+    this.state = {bits: Array(+props.bits).fill(0)};   
+  }
+  
+  handleClick(i) {
+    const bits = this.state.bits.slice();
+    bits[i] = bits[i] == 0 ? 1 : 0;
+    this.setState({bits:bits});
+  }
+  render() {
+    const clickers = [];
+    for(let i = 0; i < +this.state.bits.length; i++) {
+      clickers.push(
+        <Bit onClick={() => {this.handleClick(i)}} value={this.state.bits[i]} />
+      );
+   
     }
-
-    handleClick(i) {
-        // object literal ...{}
-        // in es6 you can have dynamic properties (variables)
-        // by using bracket notation
-        const newCounts = this.state.counts.slice();
-        newCounts[i] = newCounts[i] == 0 ? 1 : 0;
-        this.setState({counts: newCounts});
-    }
-
-    render() {
-        const result = parseInt(this.state.counts.reduce((acc, cur) => { return acc + cur}, ''), 2);
-        const children = []; 
-        for(let i = 0; i < this.state.counts.length; i++) {
-            children.push(<Child onClick={() => {this.handleClick(i)}} val={this.state.counts[i]} />) 
-        } 
-        return (
-            <div>
-                {children}
-                <Result result={result} />
-            </div>
-        ); 
-    }
+    const result = parseInt(this.state.bits.reduce((acc, ele) => {return acc + ele}, ""), 2);
+    return <div className="binaryCalculator">{ clickers }<Result value={result}/></div>;
+  }
 }
 
-class Child extends React.Component {
-    render() {
-        return (
-                <div onClick={this.props.onClick} >{this.props.val}</div>
-        );
-    }
+class Bit extends React.Component {
+  constructor() {
+    super();
+    this.state = {count: 0};
+  }
+  
+  render() {
+    return <div onClick={() => {this.props.onClick()}}><h2>{this.props.value}</h2></div>;
+  }
+  
+  handleClick() {
+    this.setState({count: this.state.count + 1});
+  }
 }
 
 class Result extends React.Component {
-    render() {
-       return <div>{this.props.result}</div>
-    }
+  render() {
+    return <div><h1>=&nbsp;&nbsp;&nbsp;{this.props.value}</h1></div>;
+  }
 }
 
 ReactDOM.render(
-  <Parent />,
+  <BinaryCalculator bits="8" />,
   document.getElementById('root')
 );
+
